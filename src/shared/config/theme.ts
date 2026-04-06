@@ -48,6 +48,11 @@ export const appTheme = {
     fabShadow: 'rgba(0,0,0,0.2)',
     railBg: '#F0F0F0',
     railItemActive: 'rgba(51, 144, 236, 0.12)',
+    // Chat row context menu
+    contextMenuBg: '#FFFFFF',
+    contextMenuSeparator: 'rgba(0,0,0,0.08)',
+    contextMenuDanger: '#FF3B30',
+    contextMenuBackdrop: 'rgba(0,0,0,0.2)',
   },
   dark: {
     navBar: '#212D3B',
@@ -89,6 +94,10 @@ export const appTheme = {
     fabShadow: 'rgba(0,0,0,0.4)',
     railBg: '#1C1C1E',
     railItemActive: 'rgba(106, 183, 255, 0.15)',
+    contextMenuBg: '#1C242F',
+    contextMenuSeparator: '#2C3540',
+    contextMenuDanger: '#FF595A',
+    contextMenuBackdrop: 'rgba(0,0,0,0.35)',
   },
 } as const;
 

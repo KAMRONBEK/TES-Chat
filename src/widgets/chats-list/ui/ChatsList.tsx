@@ -1,11 +1,24 @@
 import { useRouter } from 'expo-router';
-import { useMemo } from 'react';
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useMemo, useRef, useState } from 'react';
+import type { GestureResponderEvent } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import type { Chat } from '@/entities/chat';
 import { useGetChatsQuery } from '@/entities/chat';
 import { appTheme } from '@/shared/config/theme';
 import { useColorScheme } from '@/shared/lib/hooks';
+import {
+  ChatListContextMenu,
+  type ChatListMenuAction,
+} from '@/shared/ui/chat-list-context-menu';
 
 const AVATAR_COLORS = ['#5B9BD5', '#70B477', '#9B7ED9', '#E67A7A', '#D4A35B', '#5C9EAD', '#4A90D9'];
 
@@ -24,13 +37,23 @@ export type ChatsListProps = {
   selectedChatId?: string | null;
   /** Filters the list by title / last message (client-side). */
   searchQuery?: string;
+  /** Chat row context menu (long-press / right-click). */
+  onMenuAction?: (action: ChatListMenuAction, chatId: string) => void;
 };
 
-export function ChatsList({ onChatPress, selectedChatId, searchQuery = '' }: ChatsListProps) {
+export function ChatsList({
+  onChatPress,
+  selectedChatId,
+  searchQuery = '',
+  onMenuAction,
+}: ChatsListProps) {
   const router = useRouter();
   const scheme = useColorScheme();
   const t = appTheme[scheme];
   const { data, isLoading, isError } = useGetChatsQuery();
+  const [menu, setMenu] = useState<null | { chatId: string; anchor: { x: number; y: number } }>(
+    null
+  );
 
   const rows = useMemo(() => {
     if (!data) return [];
@@ -67,88 +90,167 @@ export function ChatsList({ onChatPress, selectedChatId, searchQuery = '' }: Cha
   }
 
   return (
-    <FlatList
-      data={rows}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={[
-        styles.listContent,
-        { backgroundColor: t.chatListScreenBg },
-        rows.length === 0 ? styles.listEmpty : undefined,
-      ]}
-      ListHeaderComponent={
-        rows.length > 0 ? (
-          <Text style={[styles.sectionLabel, { color: t.textSecondary }]}>All chats</Text>
-        ) : null
-      }
-      ListEmptyComponent={
-        <View style={styles.emptyWrap}>
-          <Text style={[styles.emptyText, { color: t.textSecondary }]}>No chats found</Text>
-        </View>
-      }
-      ItemSeparatorComponent={() => (
-        <View style={[styles.separatorInset, { backgroundColor: t.chatListRow }]}>
-          <View style={[styles.separatorLine, { borderBottomColor: t.rowSeparator }]} />
-        </View>
-      )}
-      renderItem={({ item }) => (
-        <ChatRow
-          chat={item}
+    <>
+      <FlatList
+        data={rows}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={[
+          styles.listContent,
+          { backgroundColor: t.chatListScreenBg },
+          rows.length === 0 ? styles.listEmpty : undefined,
+        ]}
+        ListHeaderComponent={
+          rows.length > 0 ? (
+            <Text style={[styles.sectionLabel, { color: t.textSecondary }]}>All chats</Text>
+          ) : null
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyWrap}>
+            <Text style={[styles.emptyText, { color: t.textSecondary }]}>No chats found</Text>
+          </View>
+        }
+        ItemSeparatorComponent={() => (
+          <View style={[styles.separatorInset, { backgroundColor: t.chatListRow }]}>
+            <View style={[styles.separatorLine, { borderBottomColor: t.rowSeparator }]} />
+          </View>
+        )}
+        renderItem={({ item }) => (
+          <ChatRow
+            chat={item}
+            scheme={scheme}
+            avatarBg={avatarColor(item.title)}
+            selected={item.id === selectedChatId}
+            onPress={() => handlePress(item.id)}
+            onOpenMenu={(anchor) => setMenu({ chatId: item.id, anchor })}
+          />
+        )}
+      />
+      {menu !== null ? (
+        <ChatListContextMenu
+          visible
+          onClose={() => setMenu(null)}
+          anchor={menu.anchor}
           scheme={scheme}
-          avatarBg={avatarColor(item.title)}
-          selected={item.id === selectedChatId}
-          onPress={() => handlePress(item.id)}
+          chatId={menu.chatId}
+          onMenuAction={onMenuAction}
         />
-      )}
-    />
+      ) : null}
+    </>
   );
+}
+
+function extractWebContextMenuCoords(e: unknown): { x: number; y: number } {
+  const ev = e as {
+    nativeEvent?: {
+      pageX?: number;
+      pageY?: number;
+      clientX?: number;
+      clientY?: number;
+    };
+    pageX?: number;
+    pageY?: number;
+  };
+  if (typeof ev.pageX === 'number' && typeof ev.pageY === 'number') {
+    return { x: ev.pageX, y: ev.pageY };
+  }
+  const ne = ev.nativeEvent;
+  if (ne && typeof ne.pageX === 'number' && typeof ne.pageY === 'number') {
+    return { x: ne.pageX, y: ne.pageY };
+  }
+  if (ne && typeof ne.clientX === 'number' && typeof ne.clientY === 'number') {
+    if (typeof window !== 'undefined') {
+      return { x: ne.clientX + window.scrollX, y: ne.clientY + window.scrollY };
+    }
+    return { x: ne.clientX, y: ne.clientY };
+  }
+  return { x: 0, y: 0 };
 }
 
 function ChatRow({
   chat,
   onPress,
+  onOpenMenu,
   scheme,
   avatarBg,
   selected,
 }: {
   chat: Chat;
   onPress: () => void;
+  onOpenMenu: (anchor: { x: number; y: number }) => void;
   scheme: 'light' | 'dark';
   avatarBg: string;
   selected: boolean;
 }) {
   const t = appTheme[scheme];
   const bg = selected ? t.listItemActive : t.chatListRow;
+  const rowRef = useRef<View>(null);
+
+  const openFromLongPress = (e: GestureResponderEvent) => {
+    const { pageX, pageY } = e.nativeEvent;
+    if (Platform.OS !== 'web' && pageX === 0 && pageY === 0) {
+      rowRef.current?.measureInWindow((left, top, width, height) => {
+        onOpenMenu({ x: left + width / 2, y: top + height / 2 });
+      });
+      return;
+    }
+    onOpenMenu({ x: pageX, y: pageY });
+  };
+
+  const webContextMenuProps =
+    Platform.OS === 'web'
+      ? {
+          onContextMenu: (e: unknown) => {
+            (e as { preventDefault?: () => void }).preventDefault?.();
+            onOpenMenu(extractWebContextMenuCoords(e));
+          },
+        }
+      : {};
+
+  const longPressProps =
+    Platform.OS === 'web'
+      ? {}
+      : {
+          onLongPress: openFromLongPress,
+          delayLongPress: 450 as const,
+        };
+
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.row,
-        {
-          backgroundColor: pressed ? t.chatListRowPressed : bg,
-        },
-      ]}>
-      <View style={[styles.avatar, { backgroundColor: avatarBg }]}>
-        <Text style={styles.avatarText}>{chat.title.slice(0, 1).toUpperCase()}</Text>
-      </View>
-      <View style={styles.rowBody}>
-        <View style={styles.rowTop}>
-          <Text style={[styles.title, { color: t.textPrimary }]} numberOfLines={1}>
-            {chat.title}
-          </Text>
-          <Text style={[styles.time, { color: t.messageTime }]}>{chat.time}</Text>
+    <View ref={rowRef} collapsable={false} style={styles.rowOuter}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`Chat ${chat.title}`}
+        onPress={onPress}
+        {...longPressProps}
+        {...webContextMenuProps}
+        style={({ pressed }) => [
+          styles.row,
+          {
+            backgroundColor: pressed ? t.chatListRowPressed : bg,
+          },
+        ]}>
+        <View style={[styles.avatar, { backgroundColor: avatarBg }]}>
+          <Text style={styles.avatarText}>{chat.title.slice(0, 1).toUpperCase()}</Text>
         </View>
-        <View style={styles.rowBottom}>
-          <Text style={[styles.preview, { color: t.textSecondary }]} numberOfLines={1}>
-            {chat.lastMessage}
-          </Text>
-          {chat.unread > 0 ? (
-            <View style={[styles.badge, { backgroundColor: t.badgeUnread }]}>
-              <Text style={[styles.badgeText, { color: t.badgeText }]}>{chat.unread}</Text>
-            </View>
-          ) : null}
+        <View style={styles.rowBody}>
+          <View style={styles.rowTop}>
+            <Text style={[styles.title, { color: t.textPrimary }]} numberOfLines={1}>
+              {chat.title}
+            </Text>
+            <Text style={[styles.time, { color: t.messageTime }]}>{chat.time}</Text>
+          </View>
+          <View style={styles.rowBottom}>
+            <Text style={[styles.preview, { color: t.textSecondary }]} numberOfLines={1}>
+              {chat.lastMessage}
+            </Text>
+            {chat.unread > 0 ? (
+              <View style={[styles.badge, { backgroundColor: t.badgeUnread }]}>
+                <Text style={[styles.badgeText, { color: t.badgeText }]}>{chat.unread}</Text>
+              </View>
+            ) : null}
+          </View>
         </View>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 }
 
@@ -159,6 +261,9 @@ const styles = StyleSheet.create({
   sectionLabel: { fontSize: 15, fontWeight: '500', paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4 },
   emptyWrap: { paddingTop: 48, alignItems: 'center' },
   emptyText: { fontSize: 16 },
+  rowOuter: {
+    alignSelf: 'stretch',
+  },
   row: {
     flexDirection: 'row',
     paddingLeft: 12,
