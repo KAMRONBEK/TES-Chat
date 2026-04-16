@@ -1,17 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '@shopify/restyle';
 import { useCallback, useRef, useState } from 'react';
 import {
   Platform,
   Pressable,
+  type StyleProp,
   StyleSheet,
-  Text,
   TextInput,
   type TextInput as TextInputType,
-  View,
+  type ViewStyle,
 } from 'react-native';
 
-import { appTheme } from '@/shared/config/theme';
-import { useColorScheme } from '@/shared/lib/hooks';
+import { Box, Text, type Theme } from '@/shared/ui/restyle';
 
 const ICON_SIZE = 17;
 const H_PAD = 12;
@@ -24,6 +24,10 @@ export type SearchInputProps = {
   onChangeText: (text: string) => void;
   placeholder?: string;
   onSubmit?: () => void;
+  /** Merged onto the outer container (e.g. `flex: 1`, zero margins when embedded in a toolbar row). */
+  containerStyle?: StyleProp<ViewStyle>;
+  /** Extra `paddingVertical` on the text field (e.g. web). */
+  inputPaddingVertical?: number;
 };
 
 export function SearchInput({
@@ -31,9 +35,10 @@ export function SearchInput({
   onChangeText,
   placeholder = 'Search for messages or users',
   onSubmit,
+  containerStyle,
+  inputPaddingVertical = 0,
 }: SearchInputProps) {
-  const scheme = useColorScheme();
-  const t = appTheme[scheme];
+  const theme = useTheme<Theme>();
   const inputRef = useRef<TextInputType>(null);
   const [focused, setFocused] = useState(false);
 
@@ -45,15 +50,26 @@ export function SearchInput({
   }, []);
 
   return (
-    <View style={[styles.container, { backgroundColor: t.searchInputBg }]}>
+    <Box
+      backgroundColor="searchInputBg"
+      borderRadius="md"
+      flexDirection="row"
+      alignItems="center"
+      minHeight={36}
+      paddingVertical="sm"
+      marginHorizontal="md"
+      marginVertical="sm"
+      position="relative"
+      style={containerStyle}>
       <TextInput
         ref={inputRef}
         style={[
-          styles.input,
+          styles.inputBase,
           {
-            color: t.textPrimary,
+            color: theme.colors.textPrimary,
             paddingLeft: showIdlePlaceholder ? H_PAD : INPUT_PAD_LEFT,
             paddingRight: showClearButton ? 36 : H_PAD,
+            paddingVertical: inputPaddingVertical,
           },
         ]}
         placeholder=""
@@ -73,24 +89,23 @@ export function SearchInput({
           accessibilityLabel={placeholder}
           accessibilityHint="Opens search field"
           onPress={focusInput}
-          style={styles.idleOverlay}
-        >
+          style={styles.idleOverlay}>
           <Ionicons
             name="search"
             size={ICON_SIZE}
-            color={t.searchInputIcon}
+            color={theme.colors.searchInputIcon}
             style={styles.idleIcon}
           />
-          <Text style={[styles.idleLabel, { color: t.searchInputPlaceholder }]} numberOfLines={1}>
+          <Text variant="searchIdleLabel" color="searchInputPlaceholder" numberOfLines={1}>
             {placeholder}
           </Text>
         </Pressable>
       )}
 
       {!showIdlePlaceholder && (
-        <View style={styles.leftIcon} pointerEvents="none">
-          <Ionicons name="search" size={ICON_SIZE} color={t.searchInputIcon} />
-        </View>
+        <Box style={styles.leftIcon} pointerEvents="none">
+          <Ionicons name="search" size={ICON_SIZE} color={theme.colors.searchInputIcon} />
+        </Box>
       )}
 
       {showClearButton && (
@@ -99,27 +114,16 @@ export function SearchInput({
           hitSlop={8}
           accessibilityRole="button"
           accessibilityLabel="Clear search"
-          style={styles.clearBtn}
-        >
-          <Ionicons name="close-circle" size={18} color={t.searchInputIcon} />
+          style={styles.clearBtn}>
+          <Ionicons name="close-circle" size={18} color={theme.colors.searchInputIcon} />
         </Pressable>
       )}
-    </View>
+    </Box>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    minHeight: 36,
-    borderRadius: 10,
-    paddingVertical: 10,
-    marginHorizontal: 12,
-    marginVertical: 8,
-  },
-  input: {
+  inputBase: {
     flex: 1,
     fontSize: 16,
     paddingVertical: 0,
@@ -135,10 +139,6 @@ const styles = StyleSheet.create({
   },
   idleIcon: {
     marginRight: ICON_TEXT_GAP,
-  },
-  idleLabel: {
-    fontSize: 16,
-    flexShrink: 1,
   },
   leftIcon: {
     position: 'absolute',
