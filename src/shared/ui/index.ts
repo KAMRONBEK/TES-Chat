@@ -2,8 +2,9 @@ export {
   ChatNavigationBar,
   type ChatNavigationBarProps,
   type ChatNavigationBarSearchConfig,
-  type IoniconsName,
+  type IoniconsName
 } from './chat-navigation-bar';
+export { CustomStatusBar } from './custom-status-bar';
 export { ExternalLink } from './ExternalLink';
 export {
   Box,
@@ -11,8 +12,9 @@ export {
   lightTheme,
   RestyleProvider,
   Text as RestyleText,
-  type Theme,
+  type Theme
 } from './restyle';
 export { SearchInput, type SearchInputProps } from './search-input';
 export { MonoText } from './StyledText';
-export { Text, type TextProps, useThemeColor, View, type ViewProps } from './Themed';
+export { Text, useThemeColor, View, type ViewProps } from './Themed';
+

@@ -1,12 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PlaceholderTabPage } from '@/pages/placeholder-tab-page';
 import { appTheme } from '@/shared/config/theme';
-import { useBreakpoint } from '@/shared/lib/hooks';
-import { useColorScheme } from '@/shared/lib/hooks';
+import { useBreakpoint, useColorScheme } from '@/shared/lib/hooks';
+import { CustomStatusBar } from '@/shared/ui';
 
 type Props = {
   /** Wide web: two columns like Chats — master (profile) left, empty detail right. */
@@ -26,7 +25,7 @@ export function ProfileTabPage({ splitMode = false }: Props) {
   return (
     <View style={styles.splitRoot}>
       <View style={[styles.splitLeft, { width: sidebarWidth, borderRightColor: t.splitBorder }]}>
-        <StatusBar style="light" />
+        <CustomStatusBar overrideStyle="light" />
         <View style={[styles.navBar, { backgroundColor: t.navBar, paddingTop: insets.top }]}>
           <Text style={[styles.navTitle, { color: t.navBarText }]}>Profile</Text>
         </View>

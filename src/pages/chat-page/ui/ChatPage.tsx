@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { useMemo } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 
@@ -6,6 +5,7 @@ import { useGetChatsQuery } from '@/entities/chat';
 import { SendMessageBar } from '@/features/send-message';
 import { appTheme } from '@/shared/config/theme';
 import { useColorScheme } from '@/shared/lib/hooks';
+import { CustomStatusBar } from '@/shared/ui';
 import { ChatHeader } from '@/widgets/chat-header';
 import { MessageList } from '@/widgets/message-list';
 
@@ -26,7 +26,7 @@ export function ChatPage({ chatId, embedded = false }: Props) {
       style={[styles.root, { backgroundColor: t.chatWallpaper }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       keyboardVerticalOffset={0}>
-      {!embedded ? <StatusBar style="light" /> : null}
+      {!embedded ? <CustomStatusBar overrideStyle="light" /> : null}
       <ChatHeader title={title} embedded={embedded} />
       <View style={styles.flex}>
         <MessageList chatId={chatId} />
