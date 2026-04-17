@@ -1,5 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
 import { useCallback, useState } from 'react';
 import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,9 +6,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useGetChatsQuery } from '@/entities/chat';
 import { ChatPage } from '@/pages/chat-page';
 import { appTheme } from '@/shared/config/theme';
-import { useBreakpoint, useSplitTabNavigation } from '@/shared/lib/hooks';
-import { useColorScheme } from '@/shared/lib/hooks';
-import { ChatNavigationBar } from '@/shared/ui';
+import { useBreakpoint, useColorScheme, useSplitTabNavigation } from '@/shared/lib/hooks';
+import { ChatNavigationBar, CustomStatusBar } from '@/shared/ui';
 import { BOTTOM_TAB_BAR_HEIGHT } from '@/shared/ui/tabs-bottom-tab-bar';
 import { ChatsList } from '@/widgets/chats-list';
 
@@ -58,7 +56,7 @@ export function ChatsListPage({
 
   const column = (
     <View style={styles.column}>
-      <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
+      <CustomStatusBar />
       <ChatNavigationBar
         title="Chats"
         leftText="Edit"
@@ -99,7 +97,8 @@ export function ChatsListPage({
               default: {},
             }),
           },
-        ]}>
+        ]}
+      >
         <Ionicons name="create" size={24} color="#FFFFFF" />
       </Pressable>
     </View>
@@ -119,7 +118,8 @@ export function ChatsListPage({
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="Info"
-                style={[styles.splitInfoBtn, { top: insets.top + 8 }]}>
+                style={[styles.splitInfoBtn, { top: insets.top + 8 }]}
+              >
                 <Ionicons name="information-circle-outline" size={26} color={t.textSecondary} />
               </Pressable>
               <View style={styles.splitEmpty}>
