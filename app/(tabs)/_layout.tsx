@@ -1,41 +1,45 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '@shopify/restyle';
 import { Tabs } from 'expo-router';
-import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
-import { appTheme } from '@/shared/config/theme';
-import { useColorScheme } from '@/shared/lib/hooks';
-import { TabsBottomTabBar } from '@/shared/ui/tabs-bottom-tab-bar';
+import { useTotalUnread } from '@/application/index';
+import { PLACEHOLDER_AVATAR_URI } from '@/shared/config/placeholders';
+import { Avatar } from '@/shared/ui/avatar';
+import { type Theme } from '@/shared/ui/restyle';
+import { BOTTOM_TAB_BAR_HEIGHT, TabsBottomTabBar } from '@/shared/ui/tabs-bottom-tab-bar';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const t = appTheme[colorScheme];
-  const isWeb = Platform.OS === 'web';
+  const { colors } = useTheme<Theme>();
+  const totalUnread = useTotalUnread();
 
   return (
     <Tabs
       initialRouteName="index"
       tabBar={(props) => <TabsBottomTabBar {...props} />}
       screenOptions={{
-        tabBarShowLabel: !isWeb,
-        tabBarActiveTintColor: t.tint,
-        tabBarInactiveTintColor: t.textSecondary,
+        tabBarActiveTintColor: colors.tint,
+        tabBarInactiveTintColor: colors.textSecondary,
         tabBarStyle: {
-          backgroundColor: t.tabBar,
-          borderTopColor: t.border,
+          backgroundColor: colors.tabBar,
+          borderTopColor: colors.border,
           borderTopWidth: StyleSheet.hairlineWidth,
-          ...(isWeb ? { width: '100%' as const, alignSelf: 'stretch' as const } : {}),
+          ...(Platform.OS === 'web' ? { height: BOTTOM_TAB_BAR_HEIGHT } : {}),
         },
-        tabBarLabelStyle: { fontSize: 10, fontWeight: '500' },
+        tabBarLabelPosition: 'below-icon',
+        tabBarLabelStyle: { fontSize: 10, fontWeight: '500', marginTop: 2 },
         headerShown: false,
       }}>
       <Tabs.Screen
         name="contacts"
         options={{
           title: 'Contacts',
-          tabBarLabel: 'Contacts',
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? 'people' : 'people-outline'} size={size ?? 24} color={color} />
+            <Ionicons
+              name={focused ? 'people' : 'people-outline'}
+              size={size ?? 24}
+              color={color}
+            />
           ),
         }}
       />
@@ -43,7 +47,6 @@ export default function TabLayout() {
         name="calls"
         options={{
           title: 'Calls',
-          tabBarLabel: 'Calls',
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons name={focused ? 'call' : 'call-outline'} size={size ?? 24} color={color} />
           ),
@@ -53,7 +56,12 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Chats',
-          tabBarLabel: 'Chats',
+          tabBarBadge: totalUnread > 0 ? totalUnread : undefined,
+          tabBarBadgeStyle: {
+            backgroundColor: colors.badgeDanger,
+            fontSize: 11,
+            fontWeight: '600',
+          },
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? 'chatbubbles' : 'chatbubbles-outline'}
@@ -66,10 +74,14 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? 'person' : 'person-outline'} size={size ?? 24} color={color} />
+          title: 'Settings',
+          tabBarIcon: ({ focused }) => (
+            <Avatar
+              size="medium"
+              uri={PLACEHOLDER_AVATAR_URI}
+              bordered
+              focused={focused}
+            />
           ),
         }}
       />

@@ -48,6 +48,23 @@ export const lightTheme = createTheme({
       fontSize: 16,
       flexShrink: 1,
     },
+    tabLabel: {
+      fontSize: 10,
+      fontWeight: '500',
+    },
+    railLabel: {
+      fontSize: 9,
+      fontWeight: '500',
+    },
+    avatarLetter: {
+      fontWeight: '600',
+      color: 'avatarText',
+    },
+    badgeLabel: {
+      fontSize: 10,
+      fontWeight: '700',
+      color: 'badgeText',
+    },
   },
 });
 
