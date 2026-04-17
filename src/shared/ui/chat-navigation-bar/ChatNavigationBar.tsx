@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@shopify/restyle';
-import { type ComponentProps, type ReactNode } from 'react';
+import { type ComponentProps, Fragment, isValidElement, type ReactElement, type ReactNode } from 'react';
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -26,6 +26,8 @@ export type ChatNavigationBarProps = {
   rightIcon?: IoniconsName;
   rightIconColor?: string;
   rightIconSize?: number;
+  /** Screen reader label for the default right icon button (required for a usable icon-only control). */
+  rightAccessibilityLabel?: string;
   leftItem?: ReactNode;
   rightItem?: ReactNode;
   search?: ChatNavigationBarSearchConfig;
@@ -42,12 +44,30 @@ function renderTitle(title: ReactNode | undefined, color: string) {
   }
   if (typeof title === 'string' || typeof title === 'number') {
     return (
-      <Text variant="navTitle" style={[styles.titleWidth, { color }]} numberOfLines={1}>
+      <Text variant="navTitle" style={{ color }} numberOfLines={1}>
         {title}
       </Text>
     );
   }
   return title;
+}
+
+/** Coerce nav side slots to elements so they are safe inside `Pressable` (no raw text nodes). */
+function navSideItemToElement(node: ReactNode | undefined, textColor: string): ReactElement | undefined {
+  if (node == null || node === false) {
+    return undefined;
+  }
+  if (typeof node === 'string' || typeof node === 'number') {
+    return (
+      <Text variant="navSideLabel" style={{ color: textColor }} numberOfLines={1}>
+        {node}
+      </Text>
+    );
+  }
+  if (isValidElement(node)) {
+    return node;
+  }
+  return <Fragment>{node}</Fragment>;
 }
 
 const DEFAULT_RIGHT_ICON_SIZE = 26;
@@ -59,6 +79,7 @@ export function ChatNavigationBar({
   rightIcon,
   rightIconColor: rightIconColorProp,
   rightIconSize = DEFAULT_RIGHT_ICON_SIZE,
+  rightAccessibilityLabel,
   leftItem,
   rightItem,
   search,
@@ -75,7 +96,7 @@ export function ChatNavigationBar({
   const rightIconColor = rightIconColorProp ?? theme.colors.navBarSideItem;
 
   const leftResolved =
-    leftItem ??
+    navSideItemToElement(leftItem, leftTextColor) ??
     (leftText != null ? (
       <Text variant="navSideLabel" style={{ color: leftTextColor }} numberOfLines={1}>
         {leftText}
@@ -83,7 +104,7 @@ export function ChatNavigationBar({
     ) : undefined);
 
   const rightResolved =
-    rightItem ??
+    navSideItemToElement(rightItem, rightIconColor) ??
     (rightIcon != null ? (
       <Ionicons name={rightIcon} size={rightIconSize} color={rightIconColor} />
     ) : undefined);
@@ -104,7 +125,7 @@ export function ChatNavigationBar({
           paddingHorizontal="sm"
           alignItems="flex-end"
           style={{ width: 72 }}>
-          {wrapOptionalPressable(rightResolved, onRightPress)}
+          {wrapOptionalPressable(rightResolved, onRightPress, rightAccessibilityLabel)}
         </Box>
       </Box>
       {search != null ? (
@@ -124,9 +145,6 @@ export function ChatNavigationBar({
 }
 
 const styles = StyleSheet.create({
-  titleWidth: {
-    width: '100%',
-  },
   searchInputEmbed: {
     marginHorizontal: 0,
     marginVertical: 0,

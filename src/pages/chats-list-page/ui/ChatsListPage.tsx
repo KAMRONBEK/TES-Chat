@@ -63,6 +63,7 @@ export function ChatsListPage({
         title="Chats"
         leftText="Edit"
         rightIcon="create-outline"
+        rightAccessibilityLabel="Open chat"
         onRightPress={openFirstOrDemo}
         search={{
           value: searchQuery,

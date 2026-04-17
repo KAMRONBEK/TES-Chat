@@ -2,7 +2,7 @@ import { createTheme } from '@shopify/restyle';
 
 import { appTheme } from '@/shared/config/theme';
 
-function palette(p: (typeof appTheme)['light'] | (typeof appTheme)['dark']): Record<string, string> {
+function palette<T extends Record<string, string>>(p: T): T {
   return { ...p };
 }
 
@@ -51,9 +51,9 @@ export const lightTheme = createTheme({
   },
 });
 
-export const darkTheme: typeof lightTheme = {
-  ...lightTheme,
-  colors: palette(appTheme.dark),
-};
-
 export type Theme = typeof lightTheme;
+
+export const darkTheme: Theme = {
+  ...lightTheme,
+  colors: palette(appTheme.dark) as unknown as Theme['colors'],
+};

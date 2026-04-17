@@ -72,7 +72,8 @@ export function SearchInput({
             paddingVertical: inputPaddingVertical,
           },
         ]}
-        placeholder=""
+        placeholder={focused ? placeholder : ''}
+        placeholderTextColor={theme.colors.searchInputPlaceholder}
         value={value}
         onChangeText={onChangeText}
         returnKeyType="search"
@@ -80,6 +81,8 @@ export function SearchInput({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         accessibilityLabel={placeholder}
+        accessibilityElementsHidden={showIdlePlaceholder}
+        importantForAccessibility={showIdlePlaceholder ? 'no-hide-descendants' : 'auto'}
         {...(Platform.OS === 'ios' ? { clearButtonMode: 'while-editing' as const } : {})}
       />
 
