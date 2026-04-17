@@ -1,18 +1,17 @@
 import { BottomTabBar, type BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { StyleSheet, View } from 'react-native';
+import { useTheme } from '@shopify/restyle';
+import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { appTheme } from '@/shared/config/theme';
 import { useBreakpoint } from '@/shared/lib/hooks';
-import { useColorScheme } from '@/shared/lib/hooks';
+import { Box, type Theme } from '@/shared/ui/restyle';
 
 /**
- * Wide web: bottom tabs always sit under the master column width (same as Chats list), not
- * full viewport — consistent across Chats, Contacts, Calls, and Profile.
+ * Wide web: bottom tabs sit under the master column width (same as Chats list),
+ * not the full viewport.
  */
 export function TabsBottomTabBar(props: BottomTabBarProps) {
-  const scheme = useColorScheme();
-  const t = appTheme[scheme];
+  const { colors } = useTheme<Theme>();
   const insets = useSafeAreaInsets();
   const { isWideWeb, sidebarWidth } = useBreakpoint();
 
@@ -21,28 +20,20 @@ export function TabsBottomTabBar(props: BottomTabBarProps) {
   }
 
   return (
-    <View
+    <Box
       pointerEvents="box-none"
-      style={[
-        styles.masterTabBarWrap,
-        {
-          width: sidebarWidth,
-          paddingBottom: insets.bottom,
-          backgroundColor: t.tabBar,
-          borderTopColor: t.border,
-        },
-      ]}>
+      position="absolute"
+      left={0}
+      bottom={0}
+      style={{
+        width: sidebarWidth,
+        paddingBottom: insets.bottom,
+        backgroundColor: colors.tabBar,
+        borderTopColor: colors.border,
+        borderTopWidth: StyleSheet.hairlineWidth,
+        zIndex: 100,
+      }}>
       <BottomTabBar {...props} />
-    </View>
+    </Box>
   );
 }
-
-const styles = StyleSheet.create({
-  masterTabBarWrap: {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    zIndex: 100,
-  },
-});

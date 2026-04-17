@@ -16,22 +16,13 @@ import type { Chat } from '@/entities/chat';
 import { useGetChatsQuery } from '@/entities/chat';
 import { appTheme } from '@/shared/config/theme';
 import { useColorScheme } from '@/shared/lib/hooks';
+import { Avatar, avatarColor } from '@/shared/ui/avatar';
 import {
   ChatListContextMenu,
   type ChatListMenuAction,
 } from '@/shared/ui/chat-list-context-menu';
 
 import { ChatPeekOverlay } from './ChatPeekOverlay';
-
-const AVATAR_COLORS = ['#5B9BD5', '#70B477', '#9B7ED9', '#E67A7A', '#D4A35B', '#5C9EAD', '#4A90D9'];
-
-function avatarColor(title: string): string {
-  let h = 0;
-  for (let i = 0; i < title.length; i++) {
-    h = title.charCodeAt(i) + ((h << 5) - h);
-  }
-  return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
-}
 
 export type ChatsListProps = {
   /** When set, called instead of navigating to `/chat/[id]` (e.g. wide web split). */
@@ -238,11 +229,9 @@ function ChatRow({
     }
   };
 
-  const avatarLetter = chat.title.slice(0, 1).toUpperCase();
-
   const avatarVisual = (
-    <View style={[styles.avatar, { backgroundColor: avatarBg }]}>
-      <Text style={styles.avatarText}>{avatarLetter}</Text>
+    <View style={styles.avatarWrap}>
+      <Avatar size="large" name={chat.title} backgroundColor={avatarBg} />
     </View>
   );
 
@@ -346,15 +335,9 @@ const styles = StyleSheet.create({
   separatorLine: {
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    alignItems: 'center',
-    justifyContent: 'center',
+  avatarWrap: {
     marginRight: 12,
   },
-  avatarText: { color: '#fff', fontSize: 22, fontWeight: '600' },
   rowBody: { flex: 1, justifyContent: 'center', minHeight: 56 },
   rowTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 3 },
   title: { fontSize: 17, fontWeight: '500', flex: 1, marginRight: 8 },
