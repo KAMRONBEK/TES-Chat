@@ -6,6 +6,7 @@ import { LongPressGestureHandler, State, Swipeable } from 'react-native-gesture-
 
 import type { Chat } from '@/entities/chat';
 import {
+  InlineMuteIcon,
   NewMessagesBadge,
   ReadReceiptTicks,
   SwipeActionStrip,
@@ -195,12 +196,22 @@ export function ChatListRow({
         <Box
           flexDirection="row"
           justifyContent="space-between"
-          alignItems="baseline"
+          alignItems="center"
           marginBottom="xxs"
         >
-          <RestyleText variant="chatRowTitle" numberOfLines={1} flex={1} marginRight="sm">
-            {chat.title}
-          </RestyleText>
+          <Box
+            flex={1}
+            flexDirection="row"
+            alignItems="center"
+            minWidth={0}
+            marginRight="sm"
+            gap="xs"
+          >
+            <RestyleText variant="chatRowTitle" numberOfLines={1} flexShrink={1}>
+              {chat.title}
+            </RestyleText>
+            {chat.muted ? <InlineMuteIcon /> : null}
+          </Box>
           <Box flexDirection="row" alignItems="center">
             {chat.readReceipt !== undefined ? <ReadReceiptTicks read={chat.readReceipt} /> : null}
             <RestyleText variant="chatRowTime">{chat.time}</RestyleText>
@@ -276,7 +287,10 @@ export function ChatListRow({
           enableTrackpadTwoFingerGesture
           onSwipeableWillOpen={handleSwipeableWillOpen}
           onSwipeableClose={handleSwipeableClose}
-          childrenContainerStyle={{ flex: 1, backgroundColor: colors.chatListRow }}
+          childrenContainerStyle={{
+            flex: 1,
+            backgroundColor: selected ? colors.listItemActive : colors.chatListRow,
+          }}
           renderLeftActions={
             rowWidth > 0
               ? (progress, transX) => (

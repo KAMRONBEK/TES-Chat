@@ -6,6 +6,7 @@ export {
 } from './chat-navigation-bar';
 export { CustomStatusBar } from './custom-status-bar';
 export { ExternalLink } from './ExternalLink';
+export { InlineMuteIcon } from './inline-mute-icon';
 export { ListRowSeparator, type ListRowSeparatorProps } from './list-row-separator';
 export { NewMessagesBadge, type NewMessagesBadgeProps } from './new-messages-badge';
 export { ReadReceiptTicks, type ReadReceiptTicksProps } from './read-receipt-ticks';

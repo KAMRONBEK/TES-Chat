@@ -1,0 +1,1 @@
+export { InlineMuteIcon } from './InlineMuteIcon';
