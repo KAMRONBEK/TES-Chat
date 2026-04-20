@@ -10,6 +10,7 @@ const MOCK_CHATS: Chat[] = [
     time: '10:42',
     unread: 2,
     readReceipt: false,
+    muted: true,
   },
   {
     id: '2',
@@ -18,6 +19,7 @@ const MOCK_CHATS: Chat[] = [
     time: 'Yesterday',
     unread: 0,
     readReceipt: true,
+    muted: false,
   },
 ];
 
