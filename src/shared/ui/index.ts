@@ -38,5 +38,13 @@ export {
   type SwipeActionStripProps,
   type SwipeActionStripSide
 } from './swipe-action-strip';
+export {
+  ThemePickerTile,
+  type ThemePickerTileProps
+} from './theme-picker-tile';
 export { Text, useThemeColor, View, type ViewProps } from './Themed';
+export {
+  themePickerTilePresets,
+  type ThemePickerTilePreview
+} from '@/shared/config/theme';
 
