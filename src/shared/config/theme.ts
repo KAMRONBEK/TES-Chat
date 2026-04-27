@@ -113,6 +113,10 @@ export const appTheme = {
     savedMessagesAvatarGradientBottom: '#2B9EF0',
     /** Saved Messages row avatar — bookmark glyph. */
     savedMessagesAvatarIcon: '#FFFFFF',
+    /** Appearance — theme picker tile selected frame + label. */
+    themePickerActiveBorder: '#037EE5',
+    /** Appearance — theme picker tile idle preview outline. */
+    themePickerInactiveBorder: 'rgba(120, 120, 128, 0.2)',
   },
   dark: {
     navBar: 'rgba(28, 28, 30, 1)',
@@ -200,7 +204,42 @@ export const appTheme = {
     savedMessagesAvatarGradientTop: '#6FD4FC',
     savedMessagesAvatarGradientBottom: '#2B9EF0',
     savedMessagesAvatarIcon: '#FFFFFF',
+    themePickerActiveBorder: '#037EE5',
+    themePickerInactiveBorder: 'rgba(120, 120, 128, 0.2)',
   },
 } as const;
 
 export type AppColorScheme = keyof typeof appTheme;
+
+/**
+ * Swatches for appearance-picker preview tiles (fixed palettes; independent of system light/dark).
+ * Hex lives here so UI components stay token-driven per Restyle conventions.
+ */
+export type ThemePickerTilePreview = {
+  wallpaper: string;
+  bubbleIncoming: string;
+  bubbleOutgoing: string;
+};
+
+export const themePickerTilePresets = {
+  classic: {
+    wallpaper: '#CCE4F9',
+    bubbleIncoming: '#FFFFFF',
+    bubbleOutgoing: '#E1FEC6',
+  },
+  day: {
+    wallpaper: '#FFFFFF',
+    bubbleIncoming: '#D4DDE6',
+    bubbleOutgoing: '#057AFE',
+  },
+  night: {
+    wallpaper: '#000000',
+    bubbleIncoming: '#202020',
+    bubbleOutgoing: '#313131',
+  },
+  tintedBlue: {
+    wallpaper: '#18222D',
+    bubbleIncoming: '#213140',
+    bubbleOutgoing: '#3E6A97',
+  },
+} as const satisfies Record<string, ThemePickerTilePreview>;

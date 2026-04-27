@@ -32,6 +32,8 @@ const spacing = {
 
 const borderRadii = {
   none: 0,
+  /** Tiny corners (e.g. theme picker bubble tail). */
+  xxs: 1,
   xs: 4,
   sm: 8,
   md: 10,
@@ -55,6 +57,10 @@ const borderRadii = {
 const borderWidths = {
   none: 0,
   hairline: StyleSheet.hairlineWidth,
+  /** Appearance — theme picker preview, selected. */
+  themePickerActive: 3,
+  /** Appearance — theme picker preview, idle. */
+  themePickerInactive: 1,
 } as const;
 
 export const lightTheme = createTheme({
