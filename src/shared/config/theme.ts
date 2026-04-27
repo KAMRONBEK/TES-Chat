@@ -41,11 +41,16 @@ export const appTheme = {
     messageBubbleShadow: '#000000',
     /** Web: last color in `0 0.5px 1px <alpha>`. */
     messageBubbleWebShadow: 'rgba(0,0,0,0.12)',
-    // Composer
-    composerBar: '#F7F7F7',
+    // Composer (message input bar)
+    composerBar: '#F6F6F6',
+    /** Hairline under nav / above thread */
+    composerBarTop: 'rgba(0,0,0,0.08)',
     composerField: '#FFFFFF',
-    composerFieldBorder: 'rgba(0,0,0,0.06)',
-    composerIcon: '#8E8E93',
+    composerFieldBorder: 'rgba(0,0,0,0.1)',
+    /** Attach, in-field actions, voice; placeholder “Message” */
+    composerIcon: '#858E99',
+    /** Send icon in composer (active) — iOS system blue. */
+    composerSend: '#007AFF',
     sendButton: '#5288C3',
     // Legacy / shared
     background: '#E7EBF0',
@@ -135,10 +140,12 @@ export const appTheme = {
     messageImageAttachmentSizeOutgoing: '#8E8E93',
     messageBubbleShadow: '#000000',
     messageBubbleWebShadow: 'rgba(0,0,0,0.32)',
-    composerBar: '#17212B',
-    composerField: '#0E1621',
-    composerFieldBorder: 'rgba(255,255,255,0.08)',
-    composerIcon: '#8E8E93',
+    composerBar: '#1C1C1D',
+    composerBarTop: 'rgba(255,255,255,0.1)',
+    composerField: '#060606',
+    composerFieldBorder: 'rgba(255,255,255,0.12)',
+    composerIcon: '#7F7F7F',
+    composerSend: '#007AFF',
     sendButton: '#5288C3',
     background: '#0E1621',
     listItem: '#000000',

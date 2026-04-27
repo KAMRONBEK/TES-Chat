@@ -1,13 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@shopify/restyle';
 import { Tabs } from 'expo-router';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform } from 'react-native';
 
 import { useTotalUnread } from '@/application/index';
 import { PLACEHOLDER_AVATAR_URI } from '@/shared/config/placeholders';
 import { Avatar } from '@/shared/ui/avatar';
 import { type Theme } from '@/shared/ui/restyle';
-import { BOTTOM_TAB_BAR_HEIGHT, TabsBottomTabBar } from '@/shared/ui/tabs-bottom-tab-bar';
+import {
+  BOTTOM_TAB_BAR_HEIGHT,
+  BOTTOM_TAB_BAR_TOP_BORDER,
+  TabsBottomTabBar,
+} from '@/shared/ui/tabs-bottom-tab-bar';
 
 export default function TabLayout() {
   const { colors } = useTheme<Theme>();
@@ -23,7 +27,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: colors.tabBar,
           borderTopColor: colors.border,
-          borderTopWidth: StyleSheet.hairlineWidth,
+          borderTopWidth: BOTTOM_TAB_BAR_TOP_BORDER,
           ...(Platform.OS === 'web' ? { height: BOTTOM_TAB_BAR_HEIGHT } : {}),
         },
         tabBarLabelPosition: 'below-icon',

@@ -39,4 +39,13 @@ body {
   body {
     background-color: #000;
   }
-}`;
+}
+/* Message composer: kill UA / :focus-visible ring (atomic RN Web classes can lose to default focus styles). */
+textarea[data-message-composer="true"]:focus,
+textarea[data-message-composer="true"]:focus-visible,
+input[data-message-composer="true"]:focus,
+input[data-message-composer="true"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+`;
