@@ -1,4 +1,5 @@
 import { createTheme } from '@shopify/restyle';
+import { StyleSheet } from 'react-native';
 
 import { appTheme } from '@/shared/config/theme';
 
@@ -51,10 +52,16 @@ const borderRadii = {
   full: 9999,
 } as const;
 
+const borderWidths = {
+  none: 0,
+  hairline: StyleSheet.hairlineWidth,
+} as const;
+
 export const lightTheme = createTheme({
   colors: palette(appTheme.light),
   spacing,
   borderRadii,
+  borderWidths,
   textVariants: {
     defaults: {
       color: 'textPrimary',

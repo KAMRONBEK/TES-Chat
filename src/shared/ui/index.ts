@@ -8,16 +8,18 @@ export { CustomStatusBar } from './custom-status-bar';
 export { ExternalLink } from './ExternalLink';
 export { InlineMuteIcon } from './inline-mute-icon';
 export { ListRowSeparator, type ListRowSeparatorProps } from './list-row-separator';
+export { MessageComposer, type MessageComposerProps } from './message-composer';
 export { NewMessagesBadge, type NewMessagesBadgeProps } from './new-messages-badge';
 export {
   BUBBLE_READ_RECEIPT_ICON_SIZE,
   ReadReceiptTicks,
-  type ReadReceiptTicksProps,
+  type ReadReceiptTicksProps
 } from './read-receipt-ticks';
 export {
   Box,
   darkTheme,
   lightTheme,
+  PressableBox,
   RestyleProvider,
   Text as RestyleText,
   type Theme
@@ -25,7 +27,7 @@ export {
 export {
   SAVED_MESSAGES_AVATAR_DEFAULT_SIZE,
   SavedMessagesAvatar,
-  type SavedMessagesAvatarProps,
+  type SavedMessagesAvatarProps
 } from './saved-messages-avatar';
 export { SearchInput, type SearchInputProps } from './search-input';
 export { MonoText } from './StyledText';
