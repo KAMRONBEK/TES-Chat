@@ -119,6 +119,22 @@ export const appTheme = {
     themePickerInactiveBorder: 'rgba(120, 120, 128, 0.2)',
     /** Settings — horizontal color theme tile carousel strip. */
     colorThemeCarouselStrip: '#FFFFFF',
+    /** Appearance — text size block: header row above the slider. */
+
+    /** Appearance — text size slider row (A–A track). */
+    textSizeSliderRowBg: '#FFFFFF',
+    /** Appearance — hairline under the “Text size” header. */
+    textSizeSectionSeparator: 'rgba(60, 60, 67, 0.29)',
+    /** Active portion of the text size track (left of thumb, light). */
+    textSizeSliderActive: '#007AFF',
+    /** Inactive portion (right of thumb, light). */
+    textSizeSliderInactive: 'rgba(120, 120, 128, 0.24)',
+    /** Text size thumb fill. */
+    textSizeSliderThumb: '#FFFFFF',
+    /** Text size thumb outline (light; matches active track). */
+    textSizeSliderThumbBorder: '#007AFF',
+    /** “A” icons at ends of the slider. */
+    textSizeSliderIcon: '#000000',
   },
   dark: {
     navBar: 'rgba(28, 28, 30, 1)',
@@ -209,6 +225,13 @@ export const appTheme = {
     themePickerActiveBorder: '#037EE5',
     themePickerInactiveBorder: 'rgba(120, 120, 128, 0.2)',
     colorThemeCarouselStrip: '#1C1C1D',
+    textSizeSliderRowBg: '#1C1C1D',
+    textSizeSectionSeparator: 'rgba(84, 84, 88, 0.65)',
+    textSizeSliderActive: '#FFFFFF',
+    textSizeSliderInactive: 'rgba(84, 84, 88, 0.65)',
+    textSizeSliderThumb: '#FFFFFF',
+    textSizeSliderThumbBorder: 'rgba(255, 255, 255, 0.35)',
+    textSizeSliderIcon: '#FFFFFF',
   },
 } as const;
 

@@ -51,6 +51,8 @@ const borderRadii = {
   messageBubbleGroupAnchor: 2,
   /** Thin strip beside quoted-reply line. */
   messageQuoteBar: 2,
+  /** Text size slider — horizontal track bar corner radius. */
+  textSizeSliderTrack: 2,
   full: 9999,
 } as const;
 

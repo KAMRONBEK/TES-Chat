@@ -1,9 +1,4 @@
 export {
-  colorThemeOptions,
-  themePickerTilePresets, type ColorThemeOptionId, type ThemePickerTilePreview,
-  type ThemePreviewCopyPalette
-} from '@/shared/config/theme';
-export {
   ChatNavigationBar,
   type ChatNavigationBarProps,
   type ChatNavigationBarSearchConfig,
@@ -43,6 +38,19 @@ export {
   type SwipeActionStripProps,
   type SwipeActionStripSide
 } from './swipe-action-strip';
+export {
+  TEXT_SIZE_DEFAULT_LEVEL_INDEX,
+  TEXT_SIZE_MAX_LEVEL_INDEX,
+  TextSizeSlider,
+  type TextSizeSliderProps
+} from './text-size-slider';
 export { ThemePickerTile, type ThemePickerTileProps } from './theme-picker-tile';
 export { Text, useThemeColor, View, type ViewProps } from './Themed';
+export {
+  type ColorThemeOptionId,
+  colorThemeOptions,
+  themePickerTilePresets,
+  type ThemePickerTilePreview,
+  type ThemePreviewCopyPalette
+} from '@/shared/config/theme';
 
