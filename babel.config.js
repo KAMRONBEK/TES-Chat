@@ -15,6 +15,7 @@ module.exports = function (api) {
             '@/widgets': './src/widgets',
             '@/pages': './src/pages',
             '@/processes': './src/processes',
+            '@/assets': './assets',
           },
         },
       ],

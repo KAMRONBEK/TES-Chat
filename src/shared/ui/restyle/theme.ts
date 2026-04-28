@@ -38,6 +38,7 @@ const borderRadii = {
   sm: 8,
   md: 10,
   lg: 12,
+  xl: 16,
   /** Chat row long-press action sheet (iOS-style grouped card). */
   actionSheet: 20,
   /** Long-press modal chat preview (peek) panel corners. */
@@ -60,7 +61,7 @@ const borderWidths = {
   none: 0,
   hairline: StyleSheet.hairlineWidth,
   /** Appearance — theme picker preview, selected. */
-  themePickerActive: 3,
+  themePickerActive: 2,
   /** Appearance — theme picker preview, idle. */
   themePickerInactive: 1,
 } as const;

@@ -119,8 +119,13 @@ export const appTheme = {
     themePickerInactiveBorder: 'rgba(120, 120, 128, 0.2)',
     /** Settings — horizontal color theme tile carousel strip. */
     colorThemeCarouselStrip: '#FFFFFF',
-    /** Appearance — text size block: header row above the slider. */
-
+    /** Appearance — App Icon section title row (above the horizontal icon strip). */
+    appIconSectionHeaderBg: 'rgba(246, 246, 246, 1)',
+    /** Appearance — App Icon horizontal icon strip (iOS grouped card). */
+    appIconSectionStripBg: '#FFFFFF',
+    /** App Icon tile — selected ring + caption (light). */
+    appIconPickerSelectedBorder: '#037EE5',
+    appIconPickerSelectedLabel: '#037EE5',
     /** Appearance — text size slider row (A–A track). */
     textSizeSliderRowBg: '#FFFFFF',
     /** Appearance — hairline under the “Text size” header. */
@@ -225,6 +230,12 @@ export const appTheme = {
     themePickerActiveBorder: '#037EE5',
     themePickerInactiveBorder: 'rgba(120, 120, 128, 0.2)',
     colorThemeCarouselStrip: '#1C1C1D',
+    /** App Icon — dark: black header band + elevated strip (Telegram / iOS settings). */
+    appIconSectionHeaderBg: '#000000',
+    appIconSectionStripBg: '#1C1C1D',
+    /** App Icon tile — selected ring + caption (dark: light gray ring, white label). */
+    appIconPickerSelectedBorder: '#999999',
+    appIconPickerSelectedLabel: '#FFFFFF',
     textSizeSliderRowBg: '#1C1C1D',
     textSizeSectionSeparator: 'rgba(84, 84, 88, 0.65)',
     textSizeSliderActive: '#FFFFFF',
