@@ -2,6 +2,12 @@ import 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+
+/** Match `appTheme.dark.chatListScreenBg` / body so stack chrome doesn’t flash a different dark gray. */
+const navigationDarkTheme = {
+  ...DarkTheme,
+  colors: { ...DarkTheme.colors, background: '#000000', card: '#000000' },
+};
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -51,7 +57,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === 'dark' ? navigationDarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="chat/[id]" options={{ headerShown: false, animation: 'slide_from_right' }} />
