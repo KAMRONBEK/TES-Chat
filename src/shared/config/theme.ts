@@ -140,13 +140,17 @@ export const appTheme = {
     textSizeSliderThumbBorder: '#007AFF',
     /** “A” icons at ends of the slider. */
     textSizeSliderIcon: '#000000',
+    /** Settings — standard row / grouped card surface (idle). */
+    settingsRowBg: '#FFFFFF',
+    /** Settings — row pressed state. */
+    settingsRowPressed: '#E8E8E8',
   },
   dark: {
     navBar: 'rgba(28, 28, 30, 1)',
     navBarText: '#FFFFFF',
     navBarSecondary: 'rgba(255,255,255,0.65)',
     navBarSideItem: '#FFFFFF',
-    chatListScreenBg: 'rgba(28, 28, 30, 1)',
+    chatListScreenBg: '#000000',
     chatListRow: '#000000',
     chatListRowPressed: '#1C1C1E',
     rowSeparator: 'rgba(84, 84, 88, 0.65)',
@@ -174,7 +178,7 @@ export const appTheme = {
     composerIcon: '#7F7F7F',
     composerSend: '#007AFF',
     sendButton: '#5288C3',
-    background: '#0E1621',
+    background: '#000000',
     listItem: '#000000',
     listItemActive: '#2B5278',
     textPrimary: '#FFFFFF',
@@ -243,6 +247,10 @@ export const appTheme = {
     textSizeSliderThumb: '#FFFFFF',
     textSizeSliderThumbBorder: 'rgba(255, 255, 255, 0.35)',
     textSizeSliderIcon: '#FFFFFF',
+    /** Settings — standard row / grouped card surface (idle). */
+    settingsRowBg: '#1C1C1D',
+    /** Settings — row pressed state. */
+    settingsRowPressed: '#2C2C2E',
   },
 } as const;
 

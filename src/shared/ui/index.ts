@@ -30,6 +30,7 @@ export {
   type SavedMessagesAvatarProps
 } from './saved-messages-avatar';
 export { SearchInput, type SearchInputProps } from './search-input';
+export { SettingsRow, SettingsRowGroup, type SettingsRowGroupProps, type SettingsRowProps } from './settings-row';
 export { MonoText } from './StyledText';
 export {
   SwipeActionStrip,
