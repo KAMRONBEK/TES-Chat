@@ -2,6 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "baseUrl": ".",
     "paths": {
       "@/application/*": ["./src/application/*"],
       "@/shared/*": ["./src/shared/*"],
@@ -9,8 +10,9 @@
       "@/features/*": ["./src/features/*"],
       "@/widgets/*": ["./src/widgets/*"],
       "@/pages/*": ["./src/pages/*"],
-      "@/processes/*": ["./src/processes/*"]
+      "@/processes/*": ["./src/processes/*"],
+      "@/assets/*": ["./assets/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", "images.d.ts", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }
