@@ -4,6 +4,10 @@ export {
   type ChatNavigationBarSearchConfig,
   type IoniconsName
 } from './chat-navigation-bar';
+export {
+  ChatThreadNavigationBar,
+  type ChatThreadNavigationBarProps
+} from './chat-thread-navigation-bar';
 export { CustomStatusBar } from './custom-status-bar';
 export { ExternalLink } from './ExternalLink';
 export { InlineMuteIcon } from './inline-mute-icon';
