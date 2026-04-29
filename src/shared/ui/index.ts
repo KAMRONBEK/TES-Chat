@@ -1,4 +1,9 @@
 export {
+  colorThemeOptions,
+  themePickerTilePresets, type ColorThemeOptionId, type ThemePickerTilePreview,
+  type ThemePreviewCopyPalette
+} from '@/shared/config/theme';
+export {
   ChatNavigationBar,
   type ChatNavigationBarProps,
   type ChatNavigationBarSearchConfig,
@@ -34,7 +39,18 @@ export {
   type SavedMessagesAvatarProps
 } from './saved-messages-avatar';
 export { SearchInput, type SearchInputProps } from './search-input';
-export { SettingsRow, SettingsRowGroup, type SettingsRowGroupProps, type SettingsRowProps } from './settings-row';
+export {
+  SettingsRow,
+  SettingsRowGroup,
+  type SettingsRowGroupProps,
+  type SettingsRowProps
+} from './settings-row';
+export { StickerSetRow, type StickerSetRowProps } from './sticker-set-row';
+export {
+  StickerSetsList,
+  type StickerSetsListItem,
+  type StickerSetsListProps
+} from './sticker-sets-list';
 export { MonoText } from './StyledText';
 export {
   SwipeActionStrip,
@@ -51,11 +67,4 @@ export {
 } from './text-size-slider';
 export { ThemePickerTile, type ThemePickerTileProps } from './theme-picker-tile';
 export { Text, useThemeColor, View, type ViewProps } from './Themed';
-export {
-  type ColorThemeOptionId,
-  colorThemeOptions,
-  themePickerTilePresets,
-  type ThemePickerTilePreview,
-  type ThemePreviewCopyPalette
-} from '@/shared/config/theme';
 
