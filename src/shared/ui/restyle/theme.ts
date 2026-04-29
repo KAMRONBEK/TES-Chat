@@ -212,6 +212,26 @@ export const lightTheme = createTheme({
       flexShrink: 1,
       minWidth: 0,
     },
+    /** Sticker pack row — secondary line (count / subtitle). */
+    stickerSetRowSubtitle: {
+      fontSize: 13,
+      lineHeight: 16,
+      color: 'textSecondary',
+    },
+    /** Sticker sets list — uppercase section caption above the card. */
+    stickerSetSectionHeading: {
+      fontSize: 13,
+      fontWeight: '600',
+      letterSpacing: 0.6,
+      textTransform: 'uppercase',
+      color: 'textSecondary',
+    },
+    /** Sticker pack thumbnail — single initial on tinted tile. */
+    stickerSetThumbLetter: {
+      fontSize: 17,
+      fontWeight: '600',
+      color: 'avatarText',
+    },
   },
 });
 
