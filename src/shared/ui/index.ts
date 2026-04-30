@@ -1,4 +1,9 @@
 export {
+  colorThemeOptions,
+  themePickerTilePresets, type ColorThemeOptionId, type ThemePickerTilePreview,
+  type ThemePreviewCopyPalette
+} from '@/shared/config/theme';
+export {
   ChatNavigationBar,
   type ChatNavigationBarProps,
   type ChatNavigationBarSearchConfig,
@@ -8,6 +13,11 @@ export {
   ChatThreadNavigationBar,
   type ChatThreadNavigationBarProps
 } from './chat-thread-navigation-bar';
+export {
+  ContactActionRow,
+  contactActionRowDividerInsetLeft,
+  type ContactActionRowProps
+} from './contact-action-row';
 export {
   ContactListRow,
   contactListRowDividerInsetLeft,
@@ -68,9 +78,4 @@ export {
 export { ThemePickerTile, type ThemePickerTileProps } from './theme-picker-tile';
 export { Text, useThemeColor, View, type ViewProps } from './Themed';
 export { ToggleSwitchRow, type ToggleSwitchRowProps } from './toggle-switch-row';
-export {
-type ColorThemeOptionId,   colorThemeOptions,
-  themePickerTilePresets, type ThemePickerTilePreview,
-  type ThemePreviewCopyPalette
-} from '@/shared/config/theme';
 
