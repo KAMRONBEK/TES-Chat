@@ -153,6 +153,11 @@ export const appTheme = {
     /** Sticker set picker row surface (idle / pressed). */
     stickerSetRowBg: '#FFFFFF',
     stickerSetRowPressed: '#E8E8E8',
+    /**
+     * Contacts — single-line action row (icon + label), e.g. “Add People Nearby”.
+     * Light: iOS system blue; icon + label share this color.
+     */
+    contactActionRowAccent: '#007AFF',
   },
   dark: {
     navBar: 'rgba(28, 28, 30, 1)',
@@ -269,6 +274,8 @@ export const appTheme = {
     /** Sticker set picker row surface (idle / pressed). */
     stickerSetRowBg: '#1C1C1D',
     stickerSetRowPressed: '#2C2C2E',
+    /** Contacts — action row icon + label on dark lists (high contrast on black rows). */
+    contactActionRowAccent: '#FFFFFF',
   },
 } as const;
 
